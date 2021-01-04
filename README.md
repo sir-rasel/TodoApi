@@ -18,8 +18,8 @@ It will be better if you install
 
 > ## Run and Build:
 Clone or Download this repository. Change Connection strings for database connection in 
-the properties folder at ```laucnhSettings.json```. After that we Then Run the solution file and it will
-start the server and you are ready to request in the api endpoints.
+the properties folder at ```laucnhSettings.json```. After that we need to start the cassandra server.
+Then Run the solution file and it will start the server and you are ready to request in the api endpoints.
 
 > ### API ENDPOINTS / URL:
 - GET http://localhost:<port>/todo/all => It returns all the todo items.
