@@ -354,6 +354,7 @@ MigrationBackup/
 .ionide/
 
 # Solution-specific ignores
+**/Properties/launchSettings.json
 /infrastructure/.terraform
 /infrastructure/terraform.exe
 /deploy/*_secret.yaml
