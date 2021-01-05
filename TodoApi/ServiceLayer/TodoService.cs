@@ -21,35 +21,35 @@ namespace TodoApi.ServiceLayer
             return await _dataAccessor.DeleteSingleTodoItem(id);
         }
 
-        public async Task<ActionResult<IEnumerable<TodoItem>>> GetAllTodoItems()
+        public Task<ActionResult<IEnumerable<TodoItem>>> GetAllTodoItems()
         {
-            return await _dataAccessor.GetAllTodoItems();
+            return _dataAccessor.GetAllTodoItems();
         }
 
-        public async Task<ActionResult<TodoItem>> GetSingleTodoItem(long id)
+        public Task<ActionResult<TodoItem>> GetSingleTodoItem(long id)
         {
-            return await _dataAccessor.GetSingleTodoItem(id);
+            return _dataAccessor.GetSingleTodoItem(id);
         }
 
-        public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItemsByDate(DateTime? dateTime)
+        public Task<ActionResult<string>> GetTodoItemsByDate(DateTime? dateTime)
         {
-            return await _dataAccessor.GetTodoItemsByDate(dateTime);
+            return _dataAccessor.GetTodoItemsByDate(dateTime);
         }
 
-        public async Task<ActionResult<TodoItem>> PatchSingleTodoItem(long id, DateTime dateTime)
+        public Task<ActionResult<TodoItem>> PatchSingleTodoItem(long id, DateTime dateTime)
         {
-            return await _dataAccessor.PatchSingleTodoItem(id, dateTime);
+            return _dataAccessor.PatchSingleTodoItem(id, dateTime);
         }
 
-        public async Task<ActionResult<TodoItem>> PostSingleTodoItem(TodoItem todoItem)
+        public Task<ActionResult<TodoItem>> PostSingleTodoItem(TodoItem todoItem)
         {
-            return await _dataAccessor.PostSingleTodoItem(todoItem);
+            return _dataAccessor.PostSingleTodoItem(todoItem);
         }
 
-        public async Task<ActionResult<TodoItem>> PutSingleTodoItem(long id, TodoItem todoItem)
+        public Task<ActionResult<TodoItem>> PutSingleTodoItem(long id, TodoItem todoItem)
         {
             todoItem.Id = id;
-            return await _dataAccessor.PutSingleTodoItem(id, todoItem);
+            return _dataAccessor.PutSingleTodoItem(id, todoItem);
         }
     }
 }

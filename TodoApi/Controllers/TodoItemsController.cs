@@ -23,7 +23,7 @@ namespace TodoApi.Controllers
 
         // GET: Todo/?datetime = Datetime_Object
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItemsByDate(DateTime? dateTime)
+        public async Task<ActionResult<string>> GetTodoItemsByDate(DateTime? dateTime)
         {
             if(dateTime == null)
             {
