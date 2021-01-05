@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using TodoApi.DataAccessLayer;
 using TodoApi.DataAccessLayer.Repositories;
 using TodoApi.ServiceLayer;
+using TodoApi.CustomeMiddleware;
 
 namespace TodoApi
 {
@@ -46,6 +47,8 @@ namespace TodoApi
             }
 
             app.UseRouting();
+
+            app.UseMiddleware<RequestResponceLogger>();
 
             app.UseEndpoints(endpoints =>
             {

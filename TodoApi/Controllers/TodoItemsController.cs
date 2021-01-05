@@ -27,8 +27,10 @@ namespace TodoApi.Controllers
         {
             if(dateTime == null)
             {
+                _logger.LogInformation("Failed Get Data");
                 return BadRequest("Query DateTime not specified");
             }
+            _logger.LogInformation("Successfully Get Data");
             return await _TodoService.GetTodoItemsByDate(dateTime);
         }
 
@@ -36,7 +38,9 @@ namespace TodoApi.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
         {
-            return await _TodoService.GetAllTodoItems();
+            var item =  await _TodoService.GetAllTodoItems();
+            _logger.LogInformation("Successfully Get Data");
+            return item;
         }
 
         // GET: Todo/5
@@ -47,9 +51,11 @@ namespace TodoApi.Controllers
 
             if (todoItem.Value.Id == -1)
             {
+                _logger.LogInformation("Failed Get Data");
                 return NotFound();
             }
 
+            _logger.LogInformation("Successfully Get Data");
             return todoItem;
         }
 
@@ -57,7 +63,10 @@ namespace TodoApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<TodoItem>> PutTodoItem(long id,[FromBody] TodoItem todoItem)
         {
-            return await _TodoService.PutSingleTodoItem(id, todoItem);
+            var item = await _TodoService.PutSingleTodoItem(id, todoItem);
+
+            _logger.LogInformation("Successfully Put Data");
+            return item;
         }
 
         //PATCH: Todo/5
@@ -67,8 +76,12 @@ namespace TodoApi.Controllers
             var item = await _TodoService.PatchSingleTodoItem(id, dateTime);
 
             if(item.Value.Id == -1)
+            {
+                _logger.LogInformation("Failed To Patch");
                 return NoContent();
+            }
 
+            _logger.LogInformation("Successfully Patch Data");
             return item;
         }
 
@@ -79,9 +92,11 @@ namespace TodoApi.Controllers
             var item =  await _TodoService.PostSingleTodoItem(todoItem);
             if(item.Value.Id == -1)
             {
+                _logger.LogInformation("Failed To Post");
                 return BadRequest();
             }
 
+            _logger.LogInformation("Successfully Post Data");
             return item;
         }
 
@@ -92,9 +107,11 @@ namespace TodoApi.Controllers
             var item = await _TodoService.DeleteSingleTodoItem(id);
             if(item.Value.Id == -1)
             {
+                _logger.LogInformation("Failed To Delete");
                 return NotFound();
             }
 
+            _logger.LogInformation("Successfully Delete Data");
             return item;
         }
     }
