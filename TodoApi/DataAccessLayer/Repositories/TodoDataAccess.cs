@@ -1,6 +1,7 @@
 ﻿using Cassandra;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace TodoApi.DataAccessLayer.Repositories
 {
     public class TodoDataAccess : BaseRepository, ITodoDataAccess
     {
-        public TodoDataAccess(TodoContext context) :
-            base(context) { }
+        public TodoDataAccess(TodoContext context, IConfiguration configuration) :
+            base(context, configuration) { }
 
         public async Task<ActionResult<TodoItem>> DeleteSingleTodoItem(long id)
         {
@@ -52,11 +53,21 @@ namespace TodoApi.DataAccessLayer.Repositories
             return todoItem;
         }
 
-        public async Task<ActionResult<string>> GetTodoItemsByDate(DateTime? dateTime)
+        public async Task<ActionResult<IEnumerable<dynamic>>> GetTodoItemsByDate(DateTime? dateTime)
         {
             //Cassandra DB Query
-            var items = await _session.ExecuteAsync(new SimpleStatement("SELECT * FROM tododb.todoitems WHERE date = ? allow filtering", dateTime));
-            return items == null ? "Empty" : items.ToString();
+            var items = await _session.ExecuteAsync(new SimpleStatement("SELECT * FROM tododb.todoitems WHERE date = ?", dateTime));
+
+            List<dynamic> result = new List<dynamic>();
+            foreach (var item in items)
+            {
+                long id = (long)item["id"];
+                string tasktittle = (string)item["tasktittle"];
+                var date = item["date"];
+
+                result.Add(new { Id = id, TaskTittle = tasktittle, Date = date });
+            }
+            return result;
         }
 
         public async Task<ActionResult<TodoItem>> PatchSingleTodoItem(long id, DateTime dateTime)
@@ -64,7 +75,10 @@ namespace TodoApi.DataAccessLayer.Repositories
             if (TodoItemExists(id))
             {
                 //Cassandra DB Query
-                await _session.ExecuteAsync(new SimpleStatement("UPDATE todoitems SET date = ? WHERE id = ?", dateTime, id));
+                var todoItem = await _context.TodoItems.FindAsync(id);
+                await _session.ExecuteAsync(new SimpleStatement("DELETE FROM todoitems WHERE id = ?", id));
+                await _session.ExecuteAsync(new SimpleStatement("INSERT INTO todoitems (id, tasktittle, date) VALUES (?, ?, ?)",
+                    todoItem.Id, todoItem.TaskTittle, dateTime));
 
                 //Sql server Query
                 var item = await _context.TodoItems.FindAsync(id);

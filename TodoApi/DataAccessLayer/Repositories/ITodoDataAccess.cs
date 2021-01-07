@@ -9,7 +9,7 @@ namespace TodoApi.DataAccessLayer.Repositories
     public interface ITodoDataAccess
     {
         public Task<ActionResult<IEnumerable<TodoItem>>> GetAllTodoItems();
-        public Task<ActionResult<string>> GetTodoItemsByDate(DateTime? dateTime);
+        public Task<ActionResult<IEnumerable<dynamic>>> GetTodoItemsByDate(DateTime? dateTime);
         public Task<ActionResult<TodoItem>> GetSingleTodoItem(long id);
         public Task<ActionResult<TodoItem>> PutSingleTodoItem(long id, TodoItem todoItem);
         public Task<ActionResult<TodoItem>> PatchSingleTodoItem(long id, DateTime datetime);

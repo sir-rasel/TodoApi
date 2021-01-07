@@ -22,7 +22,7 @@ namespace TodoApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            string ConnectionString = Configuration.GetConnectionString("TodoDbConnection");
+            string ConnectionString = Configuration.GetConnectionString("SqlServerConnection");
             services.AddDbContext<TodoContext>(options =>
                 options.UseSqlServer(ConnectionString),
                 ServiceLifetime.Scoped

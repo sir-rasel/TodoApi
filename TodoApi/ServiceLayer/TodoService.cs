@@ -31,7 +31,7 @@ namespace TodoApi.ServiceLayer
             return _dataAccessor.GetSingleTodoItem(id);
         }
 
-        public Task<ActionResult<string>> GetTodoItemsByDate(DateTime? dateTime)
+        public Task<ActionResult<IEnumerable<dynamic>>> GetTodoItemsByDate(DateTime? dateTime)
         {
             return _dataAccessor.GetTodoItemsByDate(dateTime);
         }
